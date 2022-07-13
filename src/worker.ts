@@ -1,32 +1,25 @@
 import { Glob } from 'glob';
 
-export interface FindDatum {
-  results : string[]
-}
+import { FindDatum, FindSettings, isFindSettings } from './dto';
 
-export const isFindDatum = (o:any): o is FindDatum => {
-  if (! o.hasOwnProperty('results') ) return false;
-  for (let e in o.results)
-    if (typeof(e) != 'string')
-      return false;
-
-  return true;
-}
-
-if (process.argv.length < 3) {
+process.on('message', (d:FindSettings) => {
+  if( ! isFindSettings(d) ) {
     //@ts-ignore
-    process.send({"error" : "missing arguments"});
-    process.exit()
-}
-
-const options = {}
-const glob = new Glob(process.argv[2], options, 
-  (er:string, files:string[]) =>{   
-    if(process.send) { 
-      if(er){ 
-        process.send({"error" : er});
-        process.exit();
+    process.send({"error" : "malformed find settings"});
+    process.exit();``
+  }
+  const options = d.hasOwnProperty("options") ? d.options : {};
+ 
+  const glob = new Glob(d.pattern, options,
+    (er:string, files:string[]) =>{   
+      if(process.send) { 
+        if(er){ 
+          process.send({"error" : er});
+          process.exit();
+        }
+        process.send({"results" : files});
       }
-      process.send({"results" : files});
-    }
-});
+  });
+
+
+})

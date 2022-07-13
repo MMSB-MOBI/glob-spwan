@@ -1,5 +1,7 @@
 import { find } from '..'
 
+// node build/test/find_arg.js 'src/**/*.ts'
+
 const MAX_WORKER = 10;
 
 (async () => {

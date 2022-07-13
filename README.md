@@ -17,11 +17,44 @@ Just pass a valid glob pattern to the find function.
 ```ts
 import { find } from 'glob-spawn';
  try {
-    const files = await find('src/**/*.js');
+    const files = await find('src/**/*.ts');
     console.log(files);
 } catch(e) {
     console.log(e);
 }
+/* Will display
+[
+  'src/dto.ts',
+  'src/index.ts',
+  'src/test/find_arg_opt.ts',
+  'src/test/find_arg.ts',
+  'src/worker.ts'
+]
+*/
+```
+
+#### Options
+
+Use the optional second argument to specify the working directory for the search.
+Matching files paths will be relative to this directory.
+
+```ts
+import { find } from 'glob-spawn';
+ try {
+    const files = await find('**/*.ts', { cwd : 'src'});
+    console.log(files);
+} catch(e) {
+    console.log(e);
+}
+/* will display
+[
+  'dto.ts',
+  'index.ts',
+  'test/find_arg_opt.ts',
+  'test/find_arg.ts',
+  'worker.ts'
+]
+*/
 ```
 
 ### Pattern matching (taken from official glob package)
