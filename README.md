@@ -1,16 +1,17 @@
 # glob-spwan
+
 A Wrapper of the glob package in a multiprocess environment.
 This package deals with file system searches by spawning process foreach search. Within a process, npm [glob](https://www.npmjs.com/package/glob) is used to perform the search.
 The present package exposes the search results through a simple async/await API
 
-
 ## installation
 
-```
+```sh
 npm i glob-spawn
 ```
 
 ### Usage
+
 Just pass a valid glob pattern to the find function.
 
 ```ts
@@ -24,10 +25,12 @@ import { find } from 'glob-spawn';
 ```
 
 ### Pattern matching (taken from official glob package)
+
 Before parsing the path part patterns, braced sections are expanded into a set. Braced sections start with { and end with }, with any number of comma-delimited sections within. Braced sections may contain slash characters, so a{/b/c,bcd} would expand into a/b/c and abcd.
 
 The following characters have special magic meaning when used in a path portion:
-```
+
+```txt
 * Matches 0 or more characters in a single path portion
 
 ? Matches 1 character
